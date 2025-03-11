@@ -17,7 +17,7 @@ const Dashboard: React.FC = () => {
       try {
         const tasks = await fetchTasks();
         setTasks(tasks);
-      } catch (error) {
+      } catch (err) {
         setError("Failed to fetch tasks");
       } finally {
         setLoading(false);

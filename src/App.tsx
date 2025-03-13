@@ -1,9 +1,10 @@
 import React from 'react';
-import {Router, Route, Routes} from 'react-router-dom';
-import './App.css'
-import Dashboard from './pages/Dashboard';
+import { Route, Routes } from 'react-router-dom';
+import './App.css';
+import Dashboard from "./pages/Dashboard";
 import TaskCreate from './pages/TaskCreate';
 import Navbar from './components/Navbar';
+
 
 function App() {
   return (

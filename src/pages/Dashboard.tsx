@@ -1,21 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { fetchTasks, fetchStatuses } from "../services/api";
+import TaskCard from "../components/TaskCard";
+
+interface Status {
+  id: number;
+  name: string;
+}
 
 interface Task {
   id: number;
-  title: string;
+  name: string;
   description: string;
   due_date: string;
   status: {
     id: number;
     name: string;
   };
+  priority: {
+    id: number;
+    name: string;
+    icon: string;
+  };
 }
 
-interface Status {
-  id: number;
-  name: string;
-}
+
 
 const Dashboard: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -30,6 +38,8 @@ const Dashboard: React.FC = () => {
           fetchTasks(),
           fetchStatuses(),
         ]);
+        console.log("Tasks:", tasksData);
+        console.log("Statuses", statusesData);
         setTasks(tasksData);
         setStatuses(statusesData);
       } catch (err) {
@@ -47,7 +57,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">დავალებების მართვა</h1>
+      <h1 className="text-2xl font-bold mb-4">დავალებების გვერდი</h1>
 
       <div className="grid grid-cols-4 gap-4">
         {statuses.map((status) => (
@@ -57,14 +67,9 @@ const Dashboard: React.FC = () => {
             </h2>
             <ul className="mt-2 space-y-2">
               {tasks
-                .filter((task) => task.status.id === status.id).map((task) => (
-                  <li key={task.id} className="border p-2 rounded-md shadow-md">
-                    <p className="text-lg font-semibold">{task.title}</p>
-                    <p className="text-gray-600">{task.description}</p>
-                    <p className="text-sm text-gray-400">
-                      {new Date(task.due_date).toDateString()}
-                    </p>
-                  </li>
+                .filter((task) => task.status.id === status.id)
+                .map((task) => (
+                  <TaskCard key={task.id} task={task} />
                 ))}
             </ul>
           </div>

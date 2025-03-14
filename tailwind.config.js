@@ -8,7 +8,8 @@ export default {
         secondary: "#F14F4F",
       },
       fontFamily: {
-        fira: ["FiraGO", "sans-serif"],
+        firago: ["FiraGO", "sans-serif"],
+        fredoka: ["Fredoka One", "sans-serif"],
       },
       container: {
         center: true,

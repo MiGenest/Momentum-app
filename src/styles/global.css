@@ -3,16 +3,6 @@
 @tailwind utilities;
 @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=FiraGO:wght@400&display=swap');
 
-
-@font-face {
-    font-family: 'FiraGO';
-    src: url('../fonts/FiraGO-Regular.woff2') format('woff2'),
-         url('../fonts/FiraGO-Regular.woff') format('woff'),
-         url('../fonts/FiraGO-Regular.ttf') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-}
-
 .btn-primary {
     @apply flex items-center justify-center gap-[10px] px-[20px] py-[10px] min-w-[225px] h-[39px] 
            font-medium text-black bg-white border border-[#8338EC] rounded-[5px] transition-all 

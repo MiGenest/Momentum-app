@@ -168,7 +168,7 @@ const Dashboard: React.FC = () => {
       </div>
 
       {/* Filter Chips */}
-      <div className="flex flex-wrap gap-2 mb-6">
+      <div className="flex flex-wrap items-center gap-2 mb-6">
         {filters.departments.map((id) => (
           <button
             key={`dept-${id}`}
@@ -202,6 +202,14 @@ const Dashboard: React.FC = () => {
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <path d="M12 4L4 12M4 4L12 12" stroke="#1A1A1A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
+          </button>
+        )}
+        {(filters.departments.length > 0 || filters.priorities.length > 0 || filters.employeeId) && (
+          <button
+            onClick={() => setFilters({ departments: [], priorities: [], employeeId: null })}
+            className="text-[#9B9B9B] hover:text-[#1A1A1A] text-sm"
+          >
+            გასუფთავება
           </button>
         )}
       </div>

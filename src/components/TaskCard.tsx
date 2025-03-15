@@ -22,12 +22,12 @@ export interface TaskProps {
     };
     employee: {
         id: number;
-        name: string;
-        surname: string;
+        first_name: string;
+        last_name: string;
         avatar: string;
         department_id: number;
     };
-    comments_count: number;
+    total_comments: number;
 }
 
 const TaskCard: React.FC<{task: TaskProps}> = ({task}) => {
@@ -121,12 +121,12 @@ const TaskCard: React.FC<{task: TaskProps}> = ({task}) => {
             
             <div className="flex items-center justify-between gap-[10px]">
                 <img 
-                    src={generateAvatarUrl(task.employee.name, task.employee.surname)} 
-                    alt={`${task.employee.name} ${task.employee.surname}`}
+                    src={generateAvatarUrl(task.employee.first_name, task.employee.last_name)} 
+                    alt={`${task.employee.first_name} ${task.employee.last_name}`}
                     className="w-8 h-8 rounded-full"
                 />
                 <div className="flex items-center gap-2">
-                    <span className="text-[#9B9B9B]">{task.comments_count}</span>
+                    <span className="text-[#9B9B9B]">{task.total_comments}</span>
                     <img src="/Comments.svg" alt="Comments" className="w-4 h-4" />
                 </div>
             </div>

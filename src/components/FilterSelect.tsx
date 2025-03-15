@@ -56,6 +56,12 @@ const FilterSelect: React.FC<FilterSelectProps> = ({ options, value, onChange, p
         setIsOpen(false);
     };
 
+    const handleClear = () => {
+        onChange(null);
+        setTempValue(null);
+        setIsOpen(false);
+    };
+
     const getSelectedOptions = () => {
         if (!value) return [];
         const valueArray = Array.isArray(value) ? value : [value];
@@ -114,10 +120,10 @@ const FilterSelect: React.FC<FilterSelectProps> = ({ options, value, onChange, p
                                                     <img src="/Check.svg" alt="" className="w-[14px] h-[14px]" />
                                                 )}
                                             </div>
-                                            {option.avatar && (
+                                            {option.first_name && option.last_name && (
                                                 <img
-                                                    src={generateAvatarUrl(option.first_name || '', option.last_name || '')}
-                                                    alt=""
+                                                    src={generateAvatarUrl(option.first_name, option.last_name)}
+                                                    alt={`${option.first_name} ${option.last_name}`}
                                                     className="w-6 h-6 rounded-full"
                                                 />
                                             )}

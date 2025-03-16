@@ -136,108 +136,110 @@ const Dashboard: React.FC = () => {
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
-    <div className="container mx-auto px-6 py-8">
-      <h1 className="text-2xl font-bold mb-6">დავალებების გვერდი</h1>
-      
-      <div className="mb-6">
-        <div className="w-[688px] h-[44px] flex items-center bg-white rounded-[10px] border border-[#DEE2E6]">
-          <FilterSelect
-            options={departments}
-            value={filters.departments}
-            onChange={(value) => handleFilterChange('departments', value)}
-            placeholder="დეპარტამენტები"
-            isMulti
-            className="w-[229px] h-[44px]"
-          />
-          <FilterSelect
-            options={priorities}
-            value={filters.priorities}
-            onChange={(value) => handleFilterChange('priorities', value)}
-            placeholder="პრიორიტეტები"
-            isMulti
-            className="w-[229px] h-[44px]"
-          />
-          <FilterSelect
-            options={employees}
-            value={filters.employeeId}
-            onChange={(value) => handleFilterChange('employeeId', value)}
-            placeholder="თანამშრომელი"
-            className="w-[229px] h-[44px]"
-          />
-        </div>
-      </div>
-
-      {/* Filter Chips */}
-      <div className="flex flex-wrap items-center gap-2 mb-6">
-        {filters.departments.map((id) => (
-          <button
-            key={`dept-${id}`}
-            onClick={() => handleRemoveFilter('departments', id)}
-            className="flex items-center gap-2 px-2 py-1 bg-white border border-[#F2F2F2] rounded text-sm"
-          >
-            {getFilterLabel('departments', id)}
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M12 4L4 12M4 4L12 12" stroke="#1A1A1A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </button>
-        ))}
-        {filters.priorities.map((id) => (
-          <button
-            key={`prio-${id}`}
-            onClick={() => handleRemoveFilter('priorities', id)}
-            className="flex items-center gap-2 px-2 py-1 bg-white border border-[#F2F2F2] rounded text-sm"
-          >
-            {getFilterLabel('priorities', id)}
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M12 4L4 12M4 4L12 12" stroke="#1A1A1A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </button>
-        ))}
-        {filters.employeeId && (
-          <button
-            onClick={() => handleRemoveFilter('employeeId', filters.employeeId as number)}
-            className="flex items-center gap-2 px-2 py-1 bg-white border border-[#F2F2F2] rounded text-sm"
-          >
-            {getFilterLabel('employeeId', filters.employeeId)}
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M12 4L4 12M4 4L12 12" stroke="#1A1A1A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </button>
-        )}
-        {(filters.departments.length > 0 || filters.priorities.length > 0 || filters.employeeId) && (
-          <button
-            onClick={() => setFilters({ departments: [], priorities: [], employeeId: null })}
-            className="text-[#9B9B9B] hover:text-[#1A1A1A] text-sm"
-          >
-            გასუფთავება
-          </button>
-        )}
-      </div>
-
-      <div className="grid grid-cols-4 gap-6">
-        {statuses.map((status) => (
-          <div 
-            key={status.id} 
-            className="flex flex-col gap-4"
-          >
-            <div 
-              className="rounded-lg text-center py-3"
-              style={{ backgroundColor: statusColors[status.name] }}
-            >
-              <h2 className="font-medium text-white">{status.name}</h2>
-            </div>
-            <div className="flex flex-col gap-4">
-              {filteredTasks
-                .filter((task) => task.status.id === status.id)
-                .map((task) => (
-                  <TaskCard 
-                    key={task.id} 
-                    task={task} 
-                  />
-                ))}
-            </div>
+    <div className="w-full h-[calc(1080px-100px)] overflow-y-auto bg-[#FFFFFF]">
+      <div className="px-[120px] py-[30px]">
+        <h1 className="text-2xl font-bold mb-6">დავალებების გვერდი</h1>
+        
+        <div className="mb-6">
+          <div className="w-[688px] h-[44px] flex items-center bg-white rounded-[10px] border border-[#DEE2E6]">
+            <FilterSelect
+              options={departments}
+              value={filters.departments}
+              onChange={(value) => handleFilterChange('departments', value)}
+              placeholder="დეპარტამენტები"
+              isMulti
+              className="w-[229px] h-[44px]"
+            />
+            <FilterSelect
+              options={priorities}
+              value={filters.priorities}
+              onChange={(value) => handleFilterChange('priorities', value)}
+              placeholder="პრიორიტეტები"
+              isMulti
+              className="w-[229px] h-[44px]"
+            />
+            <FilterSelect
+              options={employees}
+              value={filters.employeeId}
+              onChange={(value) => handleFilterChange('employeeId', value)}
+              placeholder="თანამშრომელი"
+              className="w-[229px] h-[44px]"
+            />
           </div>
-        ))}
+        </div>
+
+        {/* Filter Chips */}
+        <div className="flex flex-wrap items-center gap-2 mb-6">
+          {filters.departments.map((id) => (
+            <button
+              key={`dept-${id}`}
+              onClick={() => handleRemoveFilter('departments', id)}
+              className="flex items-center gap-2 px-2 py-1 bg-white border border-[#F2F2F2] rounded text-sm"
+            >
+              {getFilterLabel('departments', id)}
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M12 4L4 12M4 4L12 12" stroke="#1A1A1A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+          ))}
+          {filters.priorities.map((id) => (
+            <button
+              key={`prio-${id}`}
+              onClick={() => handleRemoveFilter('priorities', id)}
+              className="flex items-center gap-2 px-2 py-1 bg-white border border-[#F2F2F2] rounded text-sm"
+            >
+              {getFilterLabel('priorities', id)}
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M12 4L4 12M4 4L12 12" stroke="#1A1A1A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+          ))}
+          {filters.employeeId && (
+            <button
+              onClick={() => handleRemoveFilter('employeeId', filters.employeeId as number)}
+              className="flex items-center gap-2 px-2 py-1 bg-white border border-[#F2F2F2] rounded text-sm"
+            >
+              {getFilterLabel('employeeId', filters.employeeId)}
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M12 4L4 12M4 4L12 12" stroke="#1A1A1A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+          )}
+          {(filters.departments.length > 0 || filters.priorities.length > 0 || filters.employeeId) && (
+            <button
+              onClick={() => setFilters({ departments: [], priorities: [], employeeId: null })}
+              className="text-[#9B9B9B] hover:text-[#1A1A1A] text-sm"
+            >
+              გასუფთავება
+            </button>
+          )}
+        </div>
+
+        <div className="grid grid-cols-4 gap-6">
+          {statuses.map((status) => (
+            <div 
+              key={status.id} 
+              className="flex flex-col gap-4"
+            >
+              <div 
+                className="rounded-lg text-center py-3"
+                style={{ backgroundColor: statusColors[status.name] }}
+              >
+                <h2 className="font-medium text-white">{status.name}</h2>
+              </div>
+              <div className="flex flex-col gap-4">
+                {filteredTasks
+                  .filter((task) => task.status.id === status.id)
+                  .map((task) => (
+                    <TaskCard 
+                      key={task.id} 
+                      task={task} 
+                    />
+                  ))}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

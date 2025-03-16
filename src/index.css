@@ -1,7 +1,114 @@
+@font-face {
+    font-family: 'FiraGO-Sans';
+    src: url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-Hair.eot');
+    src: url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-Hair.eot?#iefix') format('embedded-opentype'),
+         url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-Hair.woff2') format('woff2'),
+         url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-Hair.woff') format('woff');
+    font-weight: 100;
+    font-style: normal;
+    font-display: swap;
+}
 
-body {
-    font-family: Arial, sans-serif;
+@font-face {
+    font-family: 'FiraGO-Sans';
+    src: url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-UltraLight.eot');
+    src: url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-UltraLight.eot?#iefix') format('embedded-opentype'),
+         url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-UltraLight.woff2') format('woff2'),
+         url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-UltraLight.woff') format('woff');
+    font-weight: 200;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'FiraGO-Sans';
+    src: url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-Light.eot');
+    src: url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-Light.eot?#iefix') format('embedded-opentype'),
+         url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-Light.woff2') format('woff2'),
+         url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'FiraGO-Sans';
+    src: url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-Regular.eot');
+    src: url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-Regular.eot?#iefix') format('embedded-opentype'),
+         url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-Regular.woff2') format('woff2'),
+         url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'FiraGO-Sans';
+    src: url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-Medium.eot');
+    src: url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-Medium.eot?#iefix') format('embedded-opentype'),
+         url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-Medium.woff2') format('woff2'),
+         url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'FiraGO-Sans';
+    src: url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-SemiBold.eot');
+    src: url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-SemiBold.eot?#iefix') format('embedded-opentype'),
+         url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-SemiBold.woff2') format('woff2'),
+         url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-SemiBold.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'FiraGO-Sans';
+    src: url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-Bold.eot');
+    src: url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-Bold.eot?#iefix') format('embedded-opentype'),
+         url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-Bold.woff2') format('woff2'),
+         url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'FiraGO-Sans';
+    src: url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-ExtraBold.eot');
+    src: url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-ExtraBold.eot?#iefix') format('embedded-opentype'),
+         url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-ExtraBold.woff2') format('woff2'),
+         url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-ExtraBold.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'FiraGO-Sans';
+    src: url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-Heavy.eot');
+    src: url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-Heavy.eot?#iefix') format('embedded-opentype'),
+         url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-Heavy.woff2') format('woff2'),
+         url('./fonts/FiraGO_WEB_1001/Roman/FiraGO-Heavy.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+html, body {
+    font-family: 'FiraGO-Sans';
     margin: 0;
     padding: 0;
     background-color: #f5f5f5;
-  }
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+}
+
+#root {
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+}

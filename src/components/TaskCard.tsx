@@ -60,13 +60,13 @@ const TaskCard: React.FC<{task: TaskProps}> = ({task}) => {
     const getStatusStyle = (status: TaskProps["status"], priorityBorderColor: string): { background: string; borderColor: string } => {
         switch (status.id) {
             case 1: // დასაწყები
-                return { background: "#FFFFFF", borderColor: "#FFD86D" };
+                return { background: "#FFFFFF", borderColor: "#F7BC30" };
             case 2: // პროგრესში
-                return { background: "#FFFFFF", borderColor: priorityBorderColor };
+                return { background: "#FFFFFF", borderColor: "#FB5607" };
             case 3: // მზად ტესტირებისთვის
-                return { background: "#FFFFFF", borderColor: priorityBorderColor };
+                return { background: "#FFFFFF", borderColor: "#FF006E" };
             case 4: // დასრულებული
-                return { background: "#FFFFFF", borderColor: priorityBorderColor };
+                return { background: "#FFFFFF", borderColor: "#3A86FF" };
             default:
                 return { background: "#FFFFFF", borderColor: "#CED4DA" };
         }
@@ -77,14 +77,15 @@ const TaskCard: React.FC<{task: TaskProps}> = ({task}) => {
 
     return (
         <div 
-            className="rounded-[15px] px-[9px] py-[5px] border shadow-[0_2px_8px_0px_rgba(0,0,0,0.04)] font-['FiraGO']"
+            className="rounded-[w-[381px] h-[217px] rounded-[15px] gap-[28px] border border-1 p-[20px]"
             style={{ 
                 background: statusStyle.background,
-                borderColor: statusStyle.borderColor
+                borderColor: statusStyle.borderColor,
+                fontFamily: "FiraGO-Sans"
             }}
         >
-            <div className="flex items-center gap-[4px] mb-3">
-                <div className="flex items-center gap-[4px]">
+            <div className="flex items-center gap-[4px] mb-8">
+                <div className="w-[184px] h-[26px] flex gap-[10px]">
                     <span 
                         className="bg-white w-[86px] h-[26px] px-1 rounded-[5px] text-xs font-medium flex items-center justify-center gap-1"
                         style={{ 
@@ -114,8 +115,8 @@ const TaskCard: React.FC<{task: TaskProps}> = ({task}) => {
                 </span>
             </div>
             
-            <h3 className="font-bold text-base mb-2 text-[#1A1A1A]">{task.name}</h3>
-            <p className="text-sm text-[#9B9B9B] mb-4 line-clamp-2 h-[24px]">
+            <h3 className="w-[293px] h-[18px] font-[500] leading-[100%] tracking-[0%] text-[#212529] mb-4">{task.name}</h3>
+            <p className="text-[14px] font-[400] leading-[100%] tracking-[0%] text-[#343A40] mb-8 line-clamp-2 h-[24px]">
                 {task.description}
             </p>
             
@@ -125,9 +126,9 @@ const TaskCard: React.FC<{task: TaskProps}> = ({task}) => {
                     alt={`${task.employee.first_name} ${task.employee.last_name}`}
                     className="w-8 h-8 rounded-full"
                 />
-                <div className="flex items-center gap-2">
-                    <span className="text-[#9B9B9B]">{task.total_comments}</span>
+                <div className="flex items-center w-[34px] h-[22px] gap-[4px] ml-auto">
                     <img src="/Comments.svg" alt="Comments" className="w-4 h-4" />
+                    <span className="text-[#9B9B9B]">{task.total_comments}</span>
                 </div>
             </div>
         </div>

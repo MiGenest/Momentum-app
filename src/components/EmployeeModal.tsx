@@ -8,19 +8,19 @@ interface Department {
 
 const EmployeeModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    name: "",
+    surname: "",
     avatar: null as File | null,
-    department: "",
+    department_id: "",
   });
 
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
   const [departments, setDepartments] = useState<Department[]>([]);
   const [errors, setErrors] = useState({
-    firstName: "",
-    lastName: "",
+    name: "",
+    surname: "",
     avatar: "",
-    department: "",
+    department_id: "",
   });
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const EmployeeModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const validateInput = (name: string, value: string | File | null) => {
     let errorMessage = "";
 
-    if (name === "firstName" || name === "lastName") {
+    if (name === "name" || name === "surname") {
       if (!/^[ა-ჰa-zA-Z\s]+$/.test(value as string)) {
         errorMessage = "მხოლოდ ქართული და ლათინური ასოები დასაშვებია";
       } else if ((value as string).length < 2) {
@@ -65,8 +65,9 @@ const EmployeeModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    validateInput(name, value);
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const newValue = name === "department_id" ? String(value) : value;
+    validateInput(name, newValue);
+    setFormData((prev) => ({ ...prev, [name]: newValue }));
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -86,7 +87,9 @@ const EmployeeModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (Object.values(errors).some((err) => err) || !formData.firstName || !formData.lastName || !formData.avatar || !formData.department) {
+    
+
+    if (Object.values(errors).some((err) => err) || !formData.name || !formData.surname || !formData.avatar || !formData.department_id) {
       alert("გთხოვთ, შეავსოთ ყველა აუცილებელი ველი სწორად");
       return;
     }
@@ -95,9 +98,9 @@ const EmployeeModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     const token = "9e688caf-d90c-4a5f-bbca-2e34d10290bd";
 
     const formDataToSend = new FormData();
-    formDataToSend.append("firstName", formData.firstName);
-    formDataToSend.append("lastName", formData.lastName);
-    formDataToSend.append("department", formData.department);
+    formDataToSend.append("name", formData.name);
+    formDataToSend.append("surname", formData.surname);
+    formDataToSend.append("department_id", String(formData.department_id));
     if (formData.avatar) {
       formDataToSend.append("avatar", formData.avatar as Blob);
     }
@@ -128,27 +131,28 @@ const EmployeeModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           <div>
             <input
               type="text"
-              name="firstName"
-              value={formData.firstName}
+              name="name"
+              value={formData.name}
               onChange={handleChange}
               placeholder="სახელი"
               className="border border-gray-300 p-2 w-full rounded-md"
               required
             />
-            {errors.firstName && <p className="text-red-500 text-sm">{errors.firstName}</p>}
+            {errors.name && <p className="text-red-500 text-sm">{errors.surname}</p>}
           </div>
 
           <div>
             <input
               type="text"
-              name="lastName"
-              value={formData.lastName}
+              name="surname"
+              value={formData.surname}
               onChange={handleChange}
               placeholder="გვარი"
               className="border border-gray-300 p-2 w-full rounded-md"
+              autoComplete="off"
               required
             />
-            {errors.lastName && <p className="text-red-500 text-sm">{errors.lastName}</p>}
+            {errors.surname && <p className="text-red-500 text-sm">{errors.surname}</p>}
           </div>
 
           <div className="flex flex-col items-center">
@@ -161,18 +165,18 @@ const EmployeeModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
           <div>
             <select
-              name="department"
-              value={formData.department}
+              name="department_id"
+              value={formData.department_id}
               onChange={handleChange}
               className="border border-gray-300 p-2 w-full rounded-md"
               required
             >
               <option value="">აირჩიეთ დეპარტამენტი</option>
               {departments.map((dept) => (
-                <option key={dept.id} value={dept.name}>{dept.name}</option>
+                <option key={dept.id} value={dept.id}>{dept.name}</option>
               ))}
             </select>
-            {errors.department && <p className="text-red-500 text-sm">{errors.department}</p>}
+            {errors.department_id && <p className="text-red-500 text-sm">{errors.department_id}</p>}
           </div>
 
           <div className="flex justify-end gap-4">

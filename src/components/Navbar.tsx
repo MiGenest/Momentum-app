@@ -18,8 +18,7 @@ const Navbar: React.FC = () => {
                 </Link>
 
                 <div className="flex gap-6">
-                    <button className="btn-primary" onClick={() => setShowModal(true)}>
-                    <img src="/add.svg" alt="Plus icon" className="w-[20px] h-[20px]" />
+                    <button className="w-[225px] h-[39px] text-[##212529] text-[14px] font-medium border border-[#8338EC] rounded-[8px] hover:bg-[#F9F5FF]" onClick={() => setShowModal(true)}>
                     <span>თანამშრომელის დამატება</span>
                     </button>
 

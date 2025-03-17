@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 
 interface Department {
@@ -23,6 +23,10 @@ const EmployeeModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     department_id: "",
   });
 
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [selectedDepartment, setSelectedDepartment] = useState<Department | null>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const fetchDepartments = async () => {
       try {
@@ -36,44 +40,26 @@ const EmployeeModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     fetchDepartments();
   }, []);
 
-  const validateInput = (name: string, value: string | File | null) => {
-    let errorMessage = "";
+  useEffect(() => {
 
-    if (name === "name" || name === "surname") {
-      if (!/^[ა-ჰa-zA-Z\s]+$/.test(value as string)) {
-        errorMessage = "მხოლოდ ქართული და ლათინური ასოები დასაშვებია";
-      } else if ((value as string).length < 2) {
-        errorMessage = "მინიმუმ 2 სიმბოლო";
-      } else if ((value as string).length > 255) {
-        errorMessage = "მაქსიმუმ 255 სიმბოლო";
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setDropdownOpen(false);
       }
-    }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
-    if (name === "avatar") {
-      const file = value as File;
-      if (file) {
-        if (!file.type.startsWith("image")) {
-          errorMessage = "მხოლოდ სურათია დასაშვები";
-        } else if (file.size > 600 * 1024) {
-          errorMessage = "სურათი არ უნდა აღემატებოდეს 600KB";
-        }
-      }
-    }
-
-    setErrors((prev) => ({ ...prev, [name]: errorMessage }));
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    const newValue = name === "department_id" ? String(value) : value;
-    validateInput(name, newValue);
-    setFormData((prev) => ({ ...prev, [name]: newValue }));
+  const handleDepartmentSelect = (dept: Department) => {
+    setSelectedDepartment(dept);
+    setFormData((prev) => ({ ...prev, department_id: String(dept.id) }));
+    setDropdownOpen(false);
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      validateInput("avatar", file);
       setFormData((prev) => ({ ...prev, avatar: file }));
 
       const reader = new FileReader();
@@ -86,10 +72,7 @@ const EmployeeModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    
-
-    if (Object.values(errors).some((err) => err) || !formData.name || !formData.surname || !formData.avatar || !formData.department_id) {
+    if (!formData.name || !formData.surname || !formData.avatar || !formData.department_id) {
       alert("გთხოვთ, შეავსოთ ყველა აუცილებელი ველი სწორად");
       return;
     }
@@ -121,70 +104,98 @@ const EmployeeModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-[500px] relative">
-        <button className="absolute top-2 right-2 text-gray-500" onClick={onClose}>
-          <img src="/Cancel.svg" alt="Hourglass logo" className="w-[38px] h-[38px]" />
-        </button>
-        <h2 className="text-2x1 font-bold mb-6 text-center">თანამშრომლის დამატება</h2>
-        <form className="space-y-2" onSubmit={handleSubmit}>
-          <div>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="სახელი"
-              className="border border-gray-300 p-2 w-full rounded-md"
-              required
-            />
-            {errors.name && <p className="text-red-500 text-sm">{errors.surname}</p>}
+    <div className="fixed inset-0 bg-[#0D0F10]/[0.15] backdrop-blur-[10px] flex justify-center items-center">
+      <div className="bg-white w-[913px] h-[766px] p-[50px] pt-[40px] pb-[60px] rounded-[10px] shadow-lg relative flex flex-col gap-[37px]">
+        
+
+        <div className="flex justify-between items-center">
+          <h2 className="text-2xl font-bold text-center flex-1">თანამშრომლის დამატება</h2>
+          <button className="absolute top-4 right-4 w-[38px] h-[38px] flex justify-center items-center rounded-md" onClick={onClose}>
+            <img src="/Cancel.svg" alt="Close" />
+          </button>
+        </div>
+
+
+        <form className="space-y-6" onSubmit={handleSubmit}>
+          <div className="flex gap-[45px] w-full">
+
+
+            <div className="flex flex-col w-1/2">
+              <label className="text-gray-600 mb-1">სახელი*</label>
+              <input type="text" name="name" value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                placeholder="სახელი" className="border border-[#CED4DA] p-3 w-full h-[42px] rounded-[6px] text-gray-900" required />
+            </div>
+
+
+            <div className="flex flex-col w-1/2">
+              <label className="text-gray-600 mb-1">გვარი*</label>
+              <input type="text" name="surname" value={formData.surname} onChange={(e) => setFormData({ ...formData, surname: e.target.value })}
+                placeholder="გვარი" className="border border-gray-300 p-3 w-full rounded-md" required />
+            </div>
           </div>
 
-          <div>
-            <input
-              type="text"
-              name="surname"
-              value={formData.surname}
-              onChange={handleChange}
-              placeholder="გვარი"
-              className="border border-gray-300 p-2 w-full rounded-md"
-              autoComplete="off"
-              required
-            />
-            {errors.surname && <p className="text-red-500 text-sm">{errors.surname}</p>}
-          </div>
+          <div className="flex flex-col items-center justify-center w-[813px] h-[120px] border-dashed border-2 border-gray-400 rounded-[8px] p-4">
+  <label htmlFor="avatar-upload" className="cursor-pointer flex flex-col items-center justify-center w-full h-full">
+    <div className="relative flex items-center justify-center w-[85px] h-[115px] rounded-full overflow-hidden">
+      {avatarPreview ? (
+        <img src={avatarPreview} alt="Avatar Preview" className="w-full h-full object-cover rounded-full" />
+      ) : (
+        <span className="text-gray-400 text-sm flex items-center justify-center text-center">ატვირთე<br />ფოტო</span>
+      )}
+    </div>
+  </label>
+  <input
+    id="avatar-upload"
+    type="file"
+    accept="image/*"
+    onChange={handleFileChange}
+    className="hidden"
+  />
+  {errors.avatar && <p className="text-red-500 text-sm">{errors.avatar}</p>}
+</div>
 
-          <div className="flex flex-col items-center">
-            {avatarPreview && (
-              <img src={avatarPreview} alt="Avatar Preview" className="w-20 h-20 rounded-full mb-2" />
+
+          <div className="flex flex-col w-1/2 relative w-[384px]" ref={dropdownRef}>
+             <button
+                type="button"
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+                className="w-full h-[42px] border border-[#CED4DA] rounded-[6px] px-4 flex items-center justify-between bg-white shadow-sm"
+                >
+                <span className="truncate w-[300px] overflow-hidden whitespace-nowrap text-ellipsis">
+                    {selectedDepartment ? selectedDepartment.name : "აირჩიეთ დეპარტამენტი"}
+                </span>
+                <img src="/arrow-down.svg" alt="Dropdown Arrow" className={`w-4 h-4 transition-transform ${dropdownOpen ? "rotate-180" : ""}`} />
+             </button>
+
+            {dropdownOpen && (
+              <div className="absolute left-0 mt-1 w-full bg-white border border-[#CED4DA] rounded-lg shadow-md p-2 z-50">
+                {departments.map((dept) => (
+                  <div key={dept.id} className="flex items-center gap-2 py-2 cursor-pointer hover:bg-gray-100 rounded-md px-3"
+                    onClick={() => handleDepartmentSelect(dept)}>
+                    <div key={dept.id} className="flex items-center gap-2 py-0.5 cursor-pointer hover:bg-gray-100 rounded-md px-3"
+                        onClick={() => handleDepartmentSelect(dept)}>
+                        <span>{dept.name}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
             )}
-            <input type="file" accept="image/*" onChange={handleFileChange} className="mb-2" />
-            {errors.avatar && <p className="text-red-500 text-sm">{errors.avatar}</p>}
           </div>
 
-          <div>
-            <select
-              name="department_id"
-              value={formData.department_id}
-              onChange={handleChange}
-              className="border border-gray-300 p-2 w-full rounded-md"
-              required
+
+          <div className="flex justify-end gap-[12px] mt-[60px]">
+            <button 
+              type="button" 
+              className="w-[128px] h-[40px] text-[#8338EC] text-[14px] font-medium border border-[#8338EC] rounded-[8px] hover:bg-[#f3e8ff]" 
+              onClick={onClose}
             >
-              <option value="">აირჩიეთ დეპარტამენტი</option>
-              {departments.map((dept) => (
-                <option key={dept.id} value={dept.id}>{dept.name}</option>
-              ))}
-            </select>
-            {errors.department_id && <p className="text-red-500 text-sm">{errors.department_id}</p>}
-          </div>
-
-          <div className="flex justify-end gap-4">
-            <button type="button" className="border border-gray-300 px-6 py-2 rounded-md" onClick={onClose}>
               გაუქმება
             </button>
-            <button type="submit" className="bg-[#8338EC] text-white px-6 py-2 rounded-md hover:bg-[#6f2dbd] disabled:bg-gray-400" disabled={Object.values(errors).some((err) => err)}>
-              თანამშრომლის დამატება
+            <button 
+              type="submit" 
+              className="w-[196px] h-[40px] bg-[#8338EC] text-white text-[14px] font-medium rounded-[8px] hover:bg-[#6f2dbd]"
+            >
+              დაამატე თანამშრომელი
             </button>
           </div>
         </form>

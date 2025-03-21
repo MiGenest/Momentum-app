@@ -136,7 +136,7 @@ const Dashboard: React.FC = () => {
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
-    <div className="w-full h-[calc(1080px-100px)] overflow-y-auto bg-[#FFFFFF]">
+    <div className="w-full h-[calc(100%-100px)] overflow-y-auto bg-[#FFFFFF]">
       <div className="px-[120px] py-[30px]">
         <h1 className="text-2xl font-bold mb-6">დავალებების გვერდი</h1>
         

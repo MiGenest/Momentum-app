@@ -9,7 +9,7 @@ const Navbar: React.FC = () => {
     const [showModal, setShowModal] = useState(false);
         
     return (
-        <>
+        
         <div className="bg-white shadow-md w-[1920px] h-[100px] px-[120px] py-[30px] border-b border-[#FFFFFF]">
             <div className="flex justify-between items-center w-full h-full">
                 <Link to="/" className="flex items-center gap-[4px]">
@@ -29,9 +29,9 @@ const Navbar: React.FC = () => {
 
                 </div>
             </div>    
+            {showModal && <EmployeeModal onClose={() => setShowModal(false)} />}
         </div>
-        {showModal && <EmployeeModal onClose={() => setShowModal(false)} />}
-        </>
+    
     );
 };
 

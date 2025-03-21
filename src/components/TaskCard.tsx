@@ -1,24 +1,25 @@
 import React from "react";
-import { fixImageUrl, generateAvatarUrl } from "../utils/imageUrl";
+import { fixImageUrl } from "../utils/imageUrl";
+import { useNavigate } from "react-router-dom";
 
 export interface TaskProps {
     id: number;
     name: string;
     description: string;
-    due_date: string;
     status: {
         id: number;
         name: string;
+        icon?: string;
     };
     department: {
         id: number;
         name: string;
-        icon: string;
+        icon?: string;
     };
     priority: {
         id: number;
         name: string;
-        icon: string;
+        icon?: string;
     };
     employee: {
         id: number;
@@ -27,10 +28,13 @@ export interface TaskProps {
         avatar: string;
         department_id: number;
     };
+    due_date: string;
     total_comments: number;
 }
 
-const TaskCard: React.FC<{task: TaskProps}> = ({task}) => {
+const TaskCard: React.FC<{ task: TaskProps }> = ({ task }) => {
+    const navigate = useNavigate();
+
     const departmentColors: Record<number, string> = {
         1: "#FF66A8", // Design
         2: "#FD9A6A", // Marketing
@@ -75,13 +79,18 @@ const TaskCard: React.FC<{task: TaskProps}> = ({task}) => {
     const priorityStyle = getPriorityStyle(task.priority.name);
     const statusStyle = getStatusStyle(task.status, priorityStyle.borderColor);
 
+    const handleCardClick = () => {
+        navigate(`/tasks/${task.id}`);
+    };
+
     return (
         <div 
-            className="rounded-[w-[381px] h-[217px] rounded-[15px] gap-[28px] border border-1 p-[20px]"
+            onClick={handleCardClick}
+            className="rounded-[15px] border border-1 p-[20px] cursor-pointer hover:shadow-md transition-shadow duration-200"
             style={{ 
+                fontFamily: "FiraGO-Sans",
                 background: statusStyle.background,
-                borderColor: statusStyle.borderColor,
-                fontFamily: "FiraGO-Sans"
+                borderColor: statusStyle.borderColor
             }}
         >
             <div className="flex items-center gap-[4px] mb-8">
@@ -93,7 +102,9 @@ const TaskCard: React.FC<{task: TaskProps}> = ({task}) => {
                             color: priorityStyle.color
                         }}
                     >
-                        <img src={fixImageUrl(task.priority.icon)} alt="" className="w-4 h-4" />
+                        {task.priority.icon && (
+                            <img src={fixImageUrl(task.priority.icon)} alt="" className="w-4 h-4" />
+                        )}
                         {task.priority.name}
                     </span>
                     <span 
@@ -114,15 +125,15 @@ const TaskCard: React.FC<{task: TaskProps}> = ({task}) => {
                     })}
                 </span>
             </div>
-            
+
             <h3 className="w-[293px] h-[18px] font-[500] leading-[100%] tracking-[0%] text-[#212529] mb-4">{task.name}</h3>
             <p className="text-[14px] font-[400] leading-[100%] tracking-[0%] text-[#343A40] mb-8 line-clamp-2 h-[24px]">
                 {task.description}
             </p>
-            
+
             <div className="flex items-center justify-between gap-[10px]">
                 <img 
-                    src={generateAvatarUrl(task.employee.first_name, task.employee.last_name)} 
+                    src={task.employee.avatar}
                     alt={`${task.employee.first_name} ${task.employee.last_name}`}
                     className="w-8 h-8 rounded-full"
                 />
